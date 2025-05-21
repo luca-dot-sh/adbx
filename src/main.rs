@@ -5,6 +5,7 @@ mod logging;
 mod global_flags;
 mod printer;
 mod tracing;
+mod bashcomplete;
 
 use clap::Parser;
 use clap::Subcommand;
@@ -37,6 +38,8 @@ enum AdbXCommand {
     Version { package_name: String },
     /// Record the screen and save it to a file
     Screenrecord {},
+    /// Autocomplete for bash
+    Bashcomplete 
 }
 
 fn main() {
@@ -52,6 +55,7 @@ fn main() {
         AdbXCommand::StopDriving {} => vhal::stop_driving(),
         AdbXCommand::Version { package_name } => packages::version(&package_name),
         AdbXCommand::Screenrecord {} => tracing::screenrecord(),
+        AdbXCommand::Bashcomplete => bashcomplete::generate_completion_script(), 
     }
 }
 
