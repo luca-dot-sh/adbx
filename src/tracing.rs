@@ -7,9 +7,30 @@ fn get_timestamped_filename() -> String {
 }
 
 pub fn screenrecord() {
-    adb_command(&["shell", "settings", "put", "system", "show_touches", "1"],true);
-    adb_command(&["shell", "screenrecord", "--verbose", "/sdcard/screenrecord.mp4"], true); 
+    adb_command(
+        &["shell", "settings", "put", "system", "show_touches", "1"],
+        true,
+    );
+    adb_command(
+        &[
+            "shell",
+            "screenrecord",
+            "--verbose",
+            "/sdcard/screenrecord.mp4",
+        ],
+        true,
+    );
     println!("Screenrecord finished");
-    adb_command(&["pull", "/sdcard/screenrecord.mp4", &get_timestamped_filename()], true);
-    adb_command(&["shell", "settings", "put", "system", "show_touches", "0"],true);
+    adb_command(
+        &[
+            "pull",
+            "/sdcard/screenrecord.mp4",
+            &get_timestamped_filename(),
+        ],
+        true,
+    );
+    adb_command(
+        &["shell", "settings", "put", "system", "show_touches", "0"],
+        true,
+    );
 }

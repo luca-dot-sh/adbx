@@ -1,15 +1,98 @@
 use crate::adb_command;
 
-
 pub fn start_driving() {
-    adb_command(&["shell", "dumpsys", "activity", "service", "com.android.car", "inject-vhal-event", "0x11600207", "0"], true);
-    adb_command(&["shell", "dumpsys", "activity", "service", "com.android.car", "inject-vhal-event", "0x11400400", "4"], true);
-    adb_command(&["shell", "dumpsys", "activity", "service", "com.android.car", "inject-vhal-event", "0x11400400", "8"], true);
-    adb_command(&["shell", "dumpsys", "activity", "service", "com.android.car", "inject-vhal-event", "0x11600207", "30"], true);
+    adb_command(
+        &[
+            "shell",
+            "dumpsys",
+            "activity",
+            "service",
+            "com.android.car",
+            "inject-vhal-event",
+            "0x11600207",
+            "0",
+        ],
+        true,
+    );
+    adb_command(
+        &[
+            "shell",
+            "dumpsys",
+            "activity",
+            "service",
+            "com.android.car",
+            "inject-vhal-event",
+            "0x11400400",
+            "4",
+        ],
+        true,
+    );
+    adb_command(
+        &[
+            "shell",
+            "dumpsys",
+            "activity",
+            "service",
+            "com.android.car",
+            "inject-vhal-event",
+            "0x11400400",
+            "8",
+        ],
+        true,
+    );
+    adb_command(
+        &[
+            "shell",
+            "dumpsys",
+            "activity",
+            "service",
+            "com.android.car",
+            "inject-vhal-event",
+            "0x11600207",
+            "30",
+        ],
+        true,
+    );
 }
 
 pub fn stop_driving() {
-    adb_command(&["shell", "dumpsys", "activity", "service", "com.android.car", "inject-vhal-event", "0x11400400", "8"], true);
-    adb_command(&["shell", "dumpsys", "activity", "service", "com.android.car", "inject-vhal-event", "0x11600207", "0"], true);
-    adb_command(&["shell", "dumpsys", "activity", "service", "com.android.car", "inject-vhal-event", "0x11400400", "4"], true);
+    adb_command(
+        &[
+            "shell",
+            "dumpsys",
+            "activity",
+            "service",
+            "com.android.car",
+            "inject-vhal-event",
+            "0x11400400",
+            "8",
+        ],
+        true,
+    );
+    adb_command(
+        &[
+            "shell",
+            "dumpsys",
+            "activity",
+            "service",
+            "com.android.car",
+            "inject-vhal-event",
+            "0x11600207",
+            "0",
+        ],
+        true,
+    );
+    adb_command(
+        &[
+            "shell",
+            "dumpsys",
+            "activity",
+            "service",
+            "com.android.car",
+            "inject-vhal-event",
+            "0x11400400",
+            "4",
+        ],
+        true,
+    );
 }

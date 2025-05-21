@@ -20,9 +20,26 @@ pub fn modifications() {
 }
 
 pub fn version(package_name: &str) {
-    println!("Installed Versions: "); 
-    let output =adb_command(&["shell", "dumpsys", "package", package_name, "| grep versionName"], true);
-    println!("{}", output.unwrap().lines().map(|line| line.trim()).collect::<Vec<_>>().join("\n"));
+    println!("Installed Versions: ");
+    let output = adb_command(
+        &[
+            "shell",
+            "dumpsys",
+            "package",
+            package_name,
+            "| grep versionName",
+        ],
+        true,
+    );
+    println!(
+        "{}",
+        output
+            .unwrap()
+            .lines()
+            .map(|line| line.trim())
+            .collect::<Vec<_>>()
+            .join("\n")
+    );
 }
 
 pub fn install(path: &str) {

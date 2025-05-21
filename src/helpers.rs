@@ -1,7 +1,7 @@
-use std::process::{Command, Stdio};
-use std::io::{self, Write};
-use crate::printer::{print_dbg, println_debug};
 use crate::global_flags::VERBOSE;
+use crate::printer::{print_dbg, println_debug};
+use std::io::{self, Write};
+use std::process::{Command, Stdio};
 
 pub fn adb_command(args: &[&str], capture: bool) -> Result<String, std::io::Error> {
     let output_mode = if capture || VERBOSE.load(std::sync::atomic::Ordering::Relaxed) {
@@ -9,7 +9,7 @@ pub fn adb_command(args: &[&str], capture: bool) -> Result<String, std::io::Erro
     } else {
         Stdio::inherit()
     };
-    
+
     println_debug(&format!("Running command: adb {}\n", args.join(" ")));
     let output = Command::new("adb")
         .args(args) // Pass all arguments at once
@@ -24,7 +24,8 @@ pub fn adb_command(args: &[&str], capture: bool) -> Result<String, std::io::Erro
         ));
     }
 
-    let output_str = String::from_utf8(output.stdout).map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
+    let output_str = String::from_utf8(output.stdout)
+        .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
     println_debug(&format!("Command output: {}", output_str));
     return Ok(output_str);
 }
