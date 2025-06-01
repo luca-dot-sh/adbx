@@ -1,4 +1,4 @@
-# ADBX - ADB eXtended
+a# ADBX - ADB eXtended
 
 ADBX is a command line tool that extends the functionality of ADB with additional features and autocompletion for bash.
 
