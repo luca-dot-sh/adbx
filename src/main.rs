@@ -43,6 +43,9 @@ enum AdbXCommand {
     Version { package_name: String },
     /// Record the screen and save it to a file
     Screenrecord {},
+    /// Root, remount, reboot
+    RRR {},
+    #[cfg(target_os="linux")]
     /// Autocomplete for bash
     Bashcomplete,
 }
@@ -60,6 +63,8 @@ fn main() {
         AdbXCommand::StopDriving {} => vhal::stop_driving(),
         AdbXCommand::Version { package_name } => packages::version(&package_name),
         AdbXCommand::Screenrecord {} => tracing::screenrecord(),
+        AdbXCommand::RRR {} => helpers::rrr(),
+        #[cfg(target_os="linux")]
         AdbXCommand::Bashcomplete => bashcomplete::generate_completion_script(),
     }
 }

@@ -12,6 +12,16 @@ cargo build --release
 
 This will build the ADBX binary in the release mode.
 
+### Cross-compiling for Windows
+To cross compile for Windows, first install MINGW and then add the `x86_64-pc-windows-gnu` target.
+No compatability guaranteed.
+
+```bash
+sudo apt install g++-mingw-w64-x86-64 gcc-mingw-w64-x86-64
+rustup target add x86_64-pc-windows-gnu
+cargo build --target x86_64-pc-windows-gnu
+```
+
 
 ## Installation
 

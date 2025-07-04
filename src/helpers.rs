@@ -44,6 +44,13 @@ pub fn get_package_uids(package_name: &str) -> String {
     .join(",");
 }
 
+pub fn rrr(){
+    adb_root();
+    adb_command(&["wait-for-device"], false);
+    adb_command(&["remount"], false);
+    adb_command(&["reboot"], false);
+}
+
 pub fn adb_root() {
     adb_command(&["root"], true);
 }
