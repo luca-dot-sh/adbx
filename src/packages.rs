@@ -1,4 +1,4 @@
-use crate::adb_command;
+use crate::{adb_command, helpers::get_package_path};
 
 pub fn modifications() {
     let modified_packages = adb_command(&["shell", "pm list packages -f -3"], true);
@@ -42,12 +42,12 @@ pub fn version(package_name: &str) {
     );
 }
 
-pub fn install(path: &str) {
-    adb_command(&["root"], false)
-        .and(adb_command(&["remount"], false))
-        .and(adb_command(&["reboot"], false))
-        .and(adb_command(&["wait-for-device"], false))
-        .and(adb_command(&["root"], false))
-        .and(adb_command(&["remount"], false))
-        .expect_err("install failed");
+pub fn pull(package_name: &str) {
+    let path_on_device = get_package_path(package_name);
+    adb_command(&["pull", &path_on_device], false);
+}
+
+pub fn install(path_to_apk: &str, package_name: &str) {
+    let path_on_device = get_package_path(package_name);
+    adb_command(&["push", &path_to_apk, &path_on_device], false);
 }

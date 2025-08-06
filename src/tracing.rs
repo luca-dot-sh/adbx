@@ -3,7 +3,14 @@ use chrono;
 
 fn get_timestamped_filename() -> String {
     let timestamp = chrono::Local::now().format("%Y-%m-%d_%H-%M-%S");
-    format!("screenrecord_{}.mp4", timestamp)
+    format!("screenshot{}.png", timestamp)
+}
+
+pub fn screenshot(filename: Option<String>) {
+    let filepath = filename
+        .or_else(|| Some(get_timestamped_filename()))
+        .unwrap();
+    adb_command(&["shell", "screencap -a -p", ">", &filepath], false);
 }
 
 pub fn screenrecord() {

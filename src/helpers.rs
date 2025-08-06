@@ -1,3 +1,6 @@
+use chrono::format;
+use clap::builder::Str;
+
 use crate::global_flags::VERBOSE;
 use crate::printer::{print_dbg, println_debug};
 use std::io::{self, Write};
@@ -44,11 +47,21 @@ pub fn get_package_uids(package_name: &str) -> String {
     .join(",");
 }
 
-pub fn rrr(){
+pub fn rr() {
     adb_root();
     adb_command(&["wait-for-device"], false);
     adb_command(&["remount"], false);
+}
+
+pub fn rrr() {
+    rr();
     adb_command(&["reboot"], false);
+}
+
+pub fn get_package_path(package_name: &str) -> String {
+    adb_command(&["shell", &format!("pm path {}", package_name)], true)
+        .map(|s| s.trim().strip_prefix("package:").unwrap().to_string())
+        .expect("failed to get package path")
 }
 
 pub fn adb_root() {

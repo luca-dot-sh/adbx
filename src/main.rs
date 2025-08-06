@@ -30,7 +30,10 @@ struct Cli {
 #[derive(Subcommand, Debug)]
 enum AdbXCommand {
     /// Installs a system app to the device
-    Install { path_to_apk: String },
+    Install {
+        path_to_apk: String,
+        package_name: String,
+    },
     /// Print the logs of a package
     Applog { package_name: String },
     /// Check if any packages were modified
@@ -41,11 +44,17 @@ enum AdbXCommand {
     StopDriving {},
     /// Print the version of a package
     Version { package_name: String },
-    /// Record the screen and save it to a file
-    Screenrecord {},
+    /// Take a screenshot
+    Screenshot { filename: Option<String> },
+    /// Root, remount
+    RR {},
     /// Root, remount, reboot
     RRR {},
-    #[cfg(target_os="linux")]
+    /// Pull by package name
+    Pull { package_name: String },
+    /// Quickly print the latest FATAL exceptions
+    Fatal {},
+    #[cfg(target_os = "linux")]
     /// Autocomplete for bash
     Bashcomplete,
 }
@@ -57,14 +66,20 @@ fn main() {
     global_flags::VERBOSE.store(args.verbose, Relaxed);
     match cmd {
         AdbXCommand::Applog { package_name } => logging::app_log(&package_name),
-        AdbXCommand::Install { path_to_apk } => packages::install(&path_to_apk),
+        AdbXCommand::Install {
+            path_to_apk,
+            package_name,
+        } => packages::install(&path_to_apk, &package_name),
         AdbXCommand::Modifications {} => packages::modifications(),
         AdbXCommand::StartDriving {} => vhal::start_driving(),
         AdbXCommand::StopDriving {} => vhal::stop_driving(),
         AdbXCommand::Version { package_name } => packages::version(&package_name),
-        AdbXCommand::Screenrecord {} => tracing::screenrecord(),
+        AdbXCommand::Screenshot { filename } => tracing::screenshot(filename),
+        AdbXCommand::RR {} => helpers::rr(),
         AdbXCommand::RRR {} => helpers::rrr(),
-        #[cfg(target_os="linux")]
+        AdbXCommand::Pull { package_name } => packages::pull(&package_name),
+        AdbXCommand::Fatal {} => logging::fatal(),
+        #[cfg(target_os = "linux")]
         AdbXCommand::Bashcomplete => bashcomplete::generate_completion_script(),
     }
 }

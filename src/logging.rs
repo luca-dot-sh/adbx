@@ -4,3 +4,7 @@ pub fn app_log(package_name: &str) {
     let package_uid_str = get_package_uids(package_name);
     adb_command(&["logcat", "--uid", &package_uid_str], false);
 }
+
+pub fn fatal() {
+    adb_command(&["shell","logcat | grep -A20 FATAL"], false);
+}
